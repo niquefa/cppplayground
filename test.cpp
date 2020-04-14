@@ -31,6 +31,30 @@ long long factorial( const int n ){
         answer *= i;
     return answer; 
 }
+bool permute(vector<int>& element){
+  int i = element.size() - 1;
+  while (i > 0 && element[i - 1] >= element[i]) {
+    i--;
+  }
+  if (i <= 0) {
+    return false;
+  }
+  int j = element.size() - 1;
+  while (element[j] <= element[i - 1]) {
+    j--;
+  }
+  int temp = element[i - 1];
+  element[i - 1] = element[j];
+  element[j] = temp;
+  j = element.size() - 1;
+  while (i < j) {
+    temp = element[i];
+    element[i++] = element[j];
+    element[j--] = temp;
+  }
+  return true;
+};
+
 int main()
 {
     const int MAX = 10;
@@ -46,6 +70,7 @@ int main()
         }while(next_permutation(elements.begin(),elements.end()));
         if( ! ok || all_permutations.size() != factorial(n) ){
             cerr << "\n\nSome big error occur\n\n" << endl;
+            break;
         }
         cout << n << "("<<all_permutations.size()<<"=?="<<factorial(n)<<")\t" << (double(clock() - begin_time) / CLOCKS_PER_SEC) << " seconds " << endl;
     }          
